@@ -1,5 +1,14 @@
+import User from '../src/models/User.js';
+
+beforeAll(async () => {
+  // Remove test user before tests
+  await User.deleteOne({ email: 'test@example.com' });
+});
+import { jest } from '@jest/globals';
 import request from "supertest";
 import app from "../src/app.js";
+
+jest.setTimeout(20000);
 
 describe("Auth Routes", () => {
 
@@ -32,4 +41,9 @@ describe("Auth Routes", () => {
     token = res.body.token;
   });
 
+});
+import mongoose from "mongoose";
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });
